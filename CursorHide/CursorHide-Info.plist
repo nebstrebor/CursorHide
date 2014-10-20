@@ -13,7 +13,7 @@
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>ggreer.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>nutrislice.$(PRODUCT_NAME:rfc1034identifier)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -33,7 +33,7 @@
 	<key>LSUIElement</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2014 Geoff Greer. All rights reserved.</string>
+	<string>Copyright © 2014 Geoff Greer. All rights reserved. Used and modified under Apache License, see https://github.com/ggreer/CursorHide/blob/master/LICENSE. Modifications by Ben Roberts, Copyright © 2014, Nutrislice, Inc. </string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
