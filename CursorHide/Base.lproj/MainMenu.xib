@@ -20,7 +20,7 @@
         <customObject id="420" customClass="NSFontManager"/>
         <menu id="ZrB-va-V2f">
             <items>
-                <menuItem title="Welcome to CursorHide! Cursor will be hidden after 5 seconds of inactivity..." id="hsL-sm-jWh">
+                <menuItem title="Welcome to CursorHide! The pointer will be hidden after 5 seconds of inactivity." id="hsL-sm-jWh">
                     <boolean name="disabled">TRUE</boolean>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="BiP-e6-bvt"/>
