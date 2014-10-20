@@ -25,8 +25,7 @@
 }
 
 - (void)reloadSettings {
-    timeout = [defaults doubleForKey: @"cursorHideTimeout"];
-    //TODO cursorHideAutoStart, cursorHideHideOnScroll
+    timeout = 5;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -42,22 +41,24 @@
 
 - (void)startTimer {
     [timer invalidate];
-    timer = [NSTimer scheduledTimerWithTimeInterval: timeout
+    if (enabled) {
+        timer = [NSTimer scheduledTimerWithTimeInterval: timeout
                                              target: self
                                            selector: @selector(hideCursor)
                                            userInfo: nil
-                                            repeats: NO];
-    [timer setTolerance: 0.1]; // Save power
+                                            repeats: YES]; //repeating every n seconds just to ensure it stays hidden if something unhides it.
+        [timer setTolerance: 0.1]; // Save power
+    }
 }
 
 - (IBAction)toggle:(id)sender {
     enabled = !enabled;
     if (enabled) {
         [statusItem setImage: [NSImage imageNamed:@"cursor"]];
-        [_state setTitle: @"Disable"];
+        [_state setTitle: @"Disable CursorHide"];
     } else {
         [statusItem setImage: [NSImage imageNamed:@"cursor_translucent"]];
-        [_state setTitle: @"Enable"];
+        [_state setTitle: @"Enable CursorHide"];
     }
 }
 
@@ -73,10 +74,6 @@
     [statusItem setHighlightMode: YES];
     [statusItem setMenu: _menu];
 
-    defaults = [NSUserDefaults standardUserDefaults];
-    [defaults registerDefaults: @{ @"cursorHideTimeout": @2.6,
-                                   @"cursorHideAutoStart": @true,
-                                   @"cursorHideHideOnScroll": @false}];
     [self reloadSettings];
     [defaults addObserver: self
                forKeyPath: @"cursorHideTimeout"
@@ -89,10 +86,8 @@
     [self startTimer];
 
     NSUInteger resetTimerMask = NSMouseMovedMask | NSLeftMouseDownMask | NSRightMouseDownMask;
-    // TODO: really really inefficient. maybe there's an event that doesn't fire every time the mouse moves a pixel
+    
     [NSEvent addGlobalMonitorForEventsMatchingMask:resetTimerMask handler:^(NSEvent *event) {
-        //setAcceptsMouseMovedEvents
-        // Instead of destroying/creating a timer on each mouse move event, just use nextEventMatchingMask
         CGError err = CGDisplayShowCursor(kCGDirectMainDisplay);
         if (err) {
             NSLog(@"Error showing cursor: %u", err);
